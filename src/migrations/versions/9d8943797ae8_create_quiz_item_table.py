@@ -1,8 +1,8 @@
 """Create quiz_item table
 
-Revision ID: b73f84074979
+Revision ID: 9d8943797ae8
 Revises: 883ba1d7e89f
-Create Date: 2022-08-06 12:42:04.898616
+Create Date: 2022-08-08 02:58:48.362370
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b73f84074979'
+revision = '9d8943797ae8'
 down_revision = '883ba1d7e89f'
 branch_labels = None
 depends_on = None
@@ -22,7 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('question', sa.String(length=512), nullable=False),
     sa.Column('answer', sa.String(length=512), nullable=False),
-    sa.Column('created_at', sa.TIMESTAMP(), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_quiz_item_question'), 'quiz_item', ['question'], unique=False)

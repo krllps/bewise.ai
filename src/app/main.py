@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, BackgroundTasks
 
 import logging
 
+from .swagger import responses, descriptions
 from .schemas import JServiceAPIResponse, CountParameter
 from .models import QuizItem
 from .db import AsyncSession, get_db
@@ -15,7 +16,11 @@ app = FastAPI(
 logging.basicConfig(level=logging.DEBUG)
 
 
-@app.post(path="/quiz")
+@app.post(
+    path="/quiz",
+    tags=["Quiz"],
+    responses=responses.call_for_quiz_items,
+    description=descriptions.call_for_quiz_items)
 async def call_for_quiz_items(
         background_tasks: BackgroundTasks,
         count: CountParameter,

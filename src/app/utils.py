@@ -4,7 +4,7 @@ from pydantic import ValidationError
 import httpx
 from httpx import Response as HTTPXResponse, HTTPError as HTTPXError, ConnectError as HTTPXConnectError
 
-from sqlalchemy import select
+from sqlalchemy import select, asc, desc
 from sqlalchemy.dialects.postgresql import insert  # allows using Postgres specific ON CONFLICT DO NOTHING construct
 
 from typing import Any
@@ -98,3 +98,43 @@ async def insert_quiz_items(n: int, db: AsyncSession) -> None:
 async def select_all(db: AsyncSession) -> list[QuizItem | None]:
     result = await db.execute(select(QuizItem))
     return result.scalars().all()
+
+
+async def select_with_constraints(db: AsyncSession, limit: int, order_by: str, order: str) -> list[QuizItem | None]:
+    """
+    Selects from quiz_item table with constraints
+
+    :param db: Async transaction
+    :param limit: n items to return
+    :param order_by: field name to order by
+    :param order: order type
+    :return: list of quiz items or null
+    """
+    assoc = {
+        "asc": {
+            "id": asc(QuizItem.id),
+            "question": asc(QuizItem.question),
+            "answer": asc(QuizItem.answer),
+            "created_at": asc(QuizItem.created_at)
+        },
+        "desc": {
+            "id": desc(QuizItem.id),
+            "question": desc(QuizItem.question),
+            "answer": desc(QuizItem.answer),
+            "created_at": desc(QuizItem.created_at)
+        }
+    }
+    query = (
+        select(QuizItem).
+        limit(int(limit)).
+        order_by(assoc.get(order).get(order_by))
+    )
+    result = await db.stream_scalars(query)
+    items = await result.all()
+    return items
+
+
+async def get_items_count(db: AsyncSession) -> int:
+    result = await db.execute(select(QuizItem))
+    rows = result.fetchall()
+    return len(rows)

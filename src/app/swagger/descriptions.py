@@ -10,3 +10,19 @@ call_for_quiz_items = """
 
 - `count`: int, in range 1-100
 """
+
+get_quiz_items = """
+# Select inserted quiz items
+
+## Query parameters
+
+### Optional:
+
+- `limit`: int, in range 1-1000, defaults to 10
+- `order_by`: str, in ['id', 'question', 'answer', 'created_at'], defaults to 'id'
+- `order`: str, in ['asc', 'desc'], defaults to 'asc'
+"""
+
+get_items_count = """
+# Get the number of quiz items in db
+"""

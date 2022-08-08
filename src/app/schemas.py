@@ -15,3 +15,7 @@ class JServiceAPIResponse(BaseModel):
 
 class CountParameter(BaseModel):
     count: int = Field(default=..., gt=0, le=100)
+
+
+class ItemsCount(BaseModel):
+    count: int

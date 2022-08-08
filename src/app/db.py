@@ -9,7 +9,7 @@ from .config import settings
 
 async_engine: AsyncEngine = create_async_engine(
     settings.PG_DB_URL,
-    echo=True,  # flash SQL queries
+    # echo=True,  # flash SQL queries
     future=True  # enable DBAPI 2.0
 )
 
@@ -17,7 +17,7 @@ Base = declarative_base()
 
 
 async def get_db() -> AsyncGenerator:
-    async with AsyncSession(async_engine, expire_on_commit=False, future=True) as async_session:
+    async with AsyncSession(bind=async_engine, expire_on_commit=False, future=True) as async_session:
         try:
             yield async_session
             await async_session.commit()

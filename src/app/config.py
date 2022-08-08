@@ -1,4 +1,5 @@
 from functools import lru_cache
+from httpx import Timeout, Limits
 import os
 
 
@@ -13,6 +14,9 @@ class DevelopmentConfig(BaseConfig):
     PG_HOST: str = os.environ.get("POSTGRES_HOST")
 
     PG_DB_URL: str = f"postgresql+asyncpg://{PG_USER}:{PG_PASSWORD}@{PG_HOST}/{PG_DB}"
+
+    HTTPX_TIMEOUT: Timeout = Timeout(timeout=10)
+    HTTPX_LIMITS: Limits = Limits(max_connections=50, max_keepalive_connections=25)
 
 
 class ProductionConfig(BaseConfig):

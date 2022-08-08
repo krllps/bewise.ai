@@ -12,7 +12,8 @@ from . import utils
 
 app = FastAPI(
     title="quizAPI",
-    version="0.1.0"
+    version="0.1.0",
+    description=descriptions.quizAPI
 )
 
 logging.basicConfig(level=logging.DEBUG)

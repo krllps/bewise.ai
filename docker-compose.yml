@@ -9,6 +9,7 @@ services:
     expose:
       - 5432
     volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - .env
@@ -25,12 +26,15 @@ services:
       do sleep 1;
       done;
       alembic upgrade head;
+      pytest --color=yes;
       uvicorn app.main:app --host 0.0.0.0 --reload --use-colors
       "
     volumes:
       - ./src/app:/code/app
       - ./src/alembic.ini:/code/alembic.ini
       - ./src/migrations:/code/migrations
+      - ./src/pytest.ini:/code/pytest.ini
+      - ./src/app/tests:/code/app/tests
     ports:
       - "8000:8000"
     env_file:

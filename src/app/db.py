@@ -16,7 +16,7 @@ async_engine: AsyncEngine = create_async_engine(
 Base = declarative_base()
 
 
-async def get_db() -> AsyncGenerator:
+async def get_db() -> AsyncSession:
     async with AsyncSession(bind=async_engine, expire_on_commit=False, future=True) as async_session:
         try:
             yield async_session

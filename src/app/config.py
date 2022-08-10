@@ -45,7 +45,6 @@ def get_settings(stage: Literal['dev', 'prod', 'test'] = 'dev') -> object:
         "test": TestingConfig
     }
 
-    # stage: Literal['dev', 'prod', 'test'] = os.environ.get("STAGE", "dev")
     config: object = configs.get(stage) if stage in configs else configs.get("dev")
     return config
 

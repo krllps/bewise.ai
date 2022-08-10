@@ -1,0 +1,24 @@
+name: Build docker-compose
+
+on:
+  push:
+    branches:
+      - dev
+      - master
+  pull_request:
+    branches:
+      - dev
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build docker-compose
+        run: |
+          docker-compose build
+          docker-compose up -d
+          docker-compose down -v --remove-orphans

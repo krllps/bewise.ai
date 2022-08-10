@@ -36,7 +36,7 @@ services:
       - ./src/pytest.ini:/code/pytest.ini
       - ./src/app/tests:/code/app/tests
     ports:
-      - "8000:8000"
+      - "8010:8000"
     env_file:
       - .env
 

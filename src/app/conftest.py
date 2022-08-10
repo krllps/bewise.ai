@@ -47,5 +47,5 @@ async def overrides_get_db() -> AsyncSession:
 
 @pytest_asyncio.fixture
 async def async_client():
-    async with AsyncClient(app=app, base_url=f"http://localhost:8000/") as client:
+    async with AsyncClient(app=app, base_url=f"http://localhost:8010/") as client:
         yield client
